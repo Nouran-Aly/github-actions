@@ -67,7 +67,8 @@ jobs:
 
       - name: Run Trivy filesystem & Dockerfile scan
         # uses: aquasecurity/trivy-action@<pin-to-commit-sha>   # replace with real SHA
-        uses: aquasecurity/trivy-action@0.36.0
+        # uses: aquasecurity/trivy-action@0.36.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: "fs"
           scan-ref: "."
