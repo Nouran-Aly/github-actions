@@ -20,11 +20,12 @@ on:
 jobs:
   run-tests:
     # The runner is the temporary machine that executes the steps below.
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
 
     strategy:
       matrix:
         python_version: ["3.12", "3.13"]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - name: Check out repository
@@ -35,8 +36,10 @@ jobs:
         # Prepare Python on the runner. This does not change the student laptop.
         uses: actions/setup-python@v6
         with:
+          # python-version: ${{env.PYTHON_VERSION}}
           # python-version: ${{secrets.PYTHON_VERSION}}
           python-version: ${{matrix.python_version}}
+          
 
       - name: Verify environment
         run: |
