@@ -87,7 +87,7 @@ jobs:
       - name: Check health endpoint
         run: |
           sleep 5
-          curl -s http://localhost:APP_PORT/health
+          curl -s "http://localhost:${APP_PORT}/health"
 
       - name: Stop container
         if: always()
