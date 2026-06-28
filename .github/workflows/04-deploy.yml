@@ -68,6 +68,9 @@ jobs:
             -p "${APP_PORT}:8000" \
             "${{ steps.image-metadata.outputs.image_reference }}"
 
+      - name: Show running containers
+        run: docker ps
+
       - name: Smoke test deployed app
         # Retry a few times because app startup can take a moment.
         run: |
@@ -80,6 +83,11 @@ jobs:
           done
           echo "App did not become ready in time."
           exit 1
+
+      - name: Check health endpoint
+        run: |
+          sleep 5
+          curl -s http://localhost:APP_PORT/health
 
       - name: Stop container
         if: always()
