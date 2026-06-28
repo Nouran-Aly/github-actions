@@ -5,6 +5,7 @@ on:
   pull_request:
     types: [closed]
     branches: [main]
+
 env:
   IMAGE_NAME: tiny-health-app
   IMAGE_TAR: tiny-health-app.tar
@@ -17,9 +18,12 @@ permissions:
   actions: read
   contents: read
 jobs:
+    
   deploy-package:
-    # Only run when the PR was actually merged (not just closed/abandoned).
+    # Continue only when the build workflow succeeded.
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     if: ${{ github.event.pull_request.merged == true }}
+    # Use a fresh runner for the deployment simulation.
     runs-on: ubuntu-latest
     steps:
       - name: Find latest successful build run
@@ -42,6 +46,7 @@ jobs:
           fi
           echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
 
+    
       - name: Download build artifact
         # Download the artifact from the located build run.
         uses: actions/download-artifact@v4
